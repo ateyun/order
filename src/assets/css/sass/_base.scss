@@ -1,8 +1,11 @@
 $baseFontSize: 100!default;
 
-//左右留白
+*{
+    margin: 0;
+    padding: 0;
+}
 body{
-    font-size: 14rem / $baseFontSize;
+    font-size: 25rem / $baseFontSize;
     font-family: 'Microsoft YaHei', Arial !important;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -19,4 +22,8 @@ body{
     ul li{
         list-style: none;
     }
+}
+a{
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
