@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <title>商家收银</title>
+  <style>
+      .back-transition { 
+        transition: transform .5s ease;
+      }
+      .back-enter{
+        transform: translate(100%,0);
+      }
+      .back-leave {
+        transform: translate(-100%,0);
+      }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <transition name="back">
+      <router-view></router-view>
+    </transition>
+  </div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>
