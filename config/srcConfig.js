@@ -22,15 +22,15 @@ module.exports = {
 			},
 			entry: ['desk']
 		},{
-			name: 'mobiles',
-			name_cn: '移动应用',
+			name: 'userorder',
+			name_cn: '移动应用-用户中心',
 			HtmlWebpackPlugin: {
-				filename: 'mobiles.html',
-                template: 'src/router/template/mobiles.html',
+				filename: 'userorder.html',
+                template: 'src/router/template/userorder.html',
                 inject: true,
-                chunks: ['mobiles']
+                chunks: ['userorder']
 			},
-			entry: ['mobiles']
+			entry: ['userorder']
 		}
 	]
 }
