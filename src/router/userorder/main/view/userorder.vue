@@ -9,9 +9,6 @@
             <x-input title='当前买单用户'
                      disabled
                      v-model="userName"></x-input>
-        </group>
-    
-        <group>
             <x-input title='输入买单金额'
                      v-model="numPrice"
                      type="number"
@@ -24,7 +21,8 @@
         </box>
     
         <box gap="20px 10px">
-            <x-button type="primary" @click.native="toPay">去支付</x-button>
+            <x-button type="primary"
+                      @click.native="toPay">去支付</x-button>
         </box>
     </div>
 </template>
@@ -48,12 +46,12 @@ export default {
             numPrice: 0
         }
     },
-    mounted () {
-        
+    mounted() {
+
     },
     methods: {
         toPay() {
-            this.$router.push({name:'userpay'})
+            this.$router.push({ name: 'userpay' })
         }
     }
 }

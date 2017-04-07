@@ -1,5 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-size: 0.14rem;
+  font-size: 0.25rem;
   font-family: 'Microsoft YaHei', Arial !important;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -19,4 +24,9 @@ body img {
 
 body ul li {
   list-style: none;
+}
+
+a {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
