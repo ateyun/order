@@ -31,6 +31,16 @@ module.exports = {
                 chunks: ['userorder']
 			},
 			entry: ['userorder']
+		},{
+			name: 'sellerorder',
+			name_cn: '移动应用-商家买单',
+			HtmlWebpackPlugin: {
+				filename: 'sellerorder.html',
+                template: 'src/router/template/sellerorder.html',
+                inject: true,
+                chunks: ['sellerorder']
+			},
+			entry: ['sellerorder']
 		}
 	]
 }
