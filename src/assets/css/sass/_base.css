@@ -7,3 +7,16 @@ body {
   margin: 0;
   padding: 0;
 }
+
+body p, body div, body input {
+  margin: 0;
+  padding: 0;
+}
+
+body img {
+  border: none;
+}
+
+body ul li {
+  list-style: none;
+}

@@ -8,11 +8,24 @@
   <meta content="black" name="apple-mobile-web-app-status-bar-style">
   <meta content="telephone=no" name="format-detection">
   <title>用户订单中心</title>
+  <style>
+      .back-transition { 
+        transition: transform .5s ease;
+      }
+      .back-enter{
+        transform: translate(100%,0);
+      }
+      .back-leave {
+        transform: translate(-100%,0);
+      }
+  </style>
 </head>
 
 <body>
   <div id="app">
-    <router-view></router-view>
+    <transition name="back">
+      <router-view></router-view>
+    </transition>
   </div>
   <!-- built files will be auto injected -->
 </body>

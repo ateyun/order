@@ -1,11 +1,15 @@
 import VueRouter from 'vue-router'
-import UserOrder from './view/userorder.vue'
 
 const routes = [
   {
     name: 'userorder',
     path: '/',
-    component: UserOrder
+    component: (resolve)=> require(['./view/userorder.vue'],resolve)
+  },
+  {
+    name: 'userpay',
+    path: '/userpay',
+    component: (resolve)=> require(['./view/userpay.vue'],resolve)
   }
 ]
 

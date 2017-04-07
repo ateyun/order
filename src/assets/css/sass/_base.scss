@@ -1,7 +1,6 @@
 $baseFontSize: 100!default;
 
 //左右留白
-$emptyWidth:15rem / $baseFontSize;
 body{
     font-size: 14rem / $baseFontSize;
     font-family: 'Microsoft YaHei', Arial !important;
@@ -10,4 +9,14 @@ body{
     user-select: none;
     margin: 0;
     padding: 0;
+    p,div,input{
+        margin: 0;
+        padding: 0;
+    }
+    img{
+        border: none;
+    }
+    ul li{
+        list-style: none;
+    }
 }
