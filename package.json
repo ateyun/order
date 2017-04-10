@@ -9,6 +9,8 @@
     "build": "node build/build.js",
     "build:desk": "cross-env TARGET=desk node build/build.js",
     "build:menu": "cross-env TARGET=menu node build/build.js",
+    "build:userorder": "cross-env TARGET=userorder node build/build.js",
+    "build:userorder-dev": "cross-env STAGE=development TARGET=userorder node build/build.js",
     "server": "node node/app.js"
   },
   "dependencies": {
@@ -39,6 +41,7 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-html": "^2.0.1",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.2.0",
     "eventsource-polyfill": "^0.9.6",

@@ -29,6 +29,7 @@
 
 <script>
 import { XHeader, Group, Cell, XInput, Box, Icon, XButton } from 'vux'
+import server from '../../../../api/userorder/depdata'
 
 export default {
     components: {
@@ -47,11 +48,23 @@ export default {
         }
     },
     mounted() {
-
+        this.submitOrder()
     },
     methods: {
         toPay() {
             this.$router.push({ name: 'userpay' })
+        },
+        submitOrder() {
+            server.send({
+                apiName: 'submitOrder',
+                method: 'post',
+                params: {
+                    id: '212',
+                    name: '李四'
+                }
+            }).then((req)=>{
+                console.log(req)
+            })
         }
     }
 }

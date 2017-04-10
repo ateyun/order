@@ -1,3 +1,4 @@
+import testData from '../../../mock/userorder'
 
 var response = {
   // `data` is the response that was provided by the server
@@ -19,7 +20,7 @@ export default function (obj) {
   return new Promise(function (resolve, reject) {
     setTimeout(
       function () {
-        response.data = devData[obj.apiName]
+        response.data = testData[obj.apiName]
         response.config = obj
         resolve(response)
       },
