@@ -9,6 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var target = process.env.TARGET
+var STAGE = process.env.STAGE
 var srcConfig = require('../config/srcConfig')
 var projects = srcConfig.eachTemp
 
@@ -30,7 +31,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': env,
+      __STAGE__:"\'"+STAGE+"\'"
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

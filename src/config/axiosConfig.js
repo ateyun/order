@@ -1,5 +1,7 @@
+import urlBase from './urlConfig'
+
 export default {
-  baseURL: 'http://localhost:3008/',
+  baseURL: urlBase.getUrl('baseUrl'),
   timeout: 30000,
   method: 'post', // default
   transformRequest: [

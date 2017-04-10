@@ -16,7 +16,8 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 
 const plugins = [
   new webpack.DefinePlugin({
-    'process.env': config.dev.env
+    'process.env': config.dev.env,
+    __STAGE__:"\'dev\'"
   }),
   // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
   new webpack.HotModuleReplacementPlugin(),
