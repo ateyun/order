@@ -9,6 +9,8 @@
     "build": "node build/build.js",
     "build:userorder": "cross-env TARGET=userorder node build/build.js",
     "build:userorder-dev": "cross-env STAGE=development TARGET=userorder node build/build.js",
+    "build:sellerorder": "cross-env TARGET=sellerorder node build/build.js",
+    "build:sellerorder-dev": "cross-env STAGE=development TARGET=sellerorder node build/build.js",
     "server": "node node/app.js"
   },
   "dependencies": {

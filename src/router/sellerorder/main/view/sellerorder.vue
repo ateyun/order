@@ -21,6 +21,9 @@
 
 <script>
 import { XHeader, Group, Cell, XInput, Box, Icon, XButton } from 'vux'
+import server from '../../../../api/sellerorder/depdata'
+import {saveCookie , getCookie , removeCookie , getCookieAuth} from '../../../../libs/auth'
+import {ssoLogin} from '../../../../libs/common'
 
 export default {
     components: {
@@ -39,11 +42,30 @@ export default {
         }
     },
     mounted () {
-        
+        this.getWeiDianInfo();
+        aLog(getCookieAuth() )
+        if(getCookieAuth() != ''){
+            //
+            aLog('存在cookie')
+        }else{
+            ssoLogin('weixin');
+        }
     },
     methods: {
         toPay() {
             this.$router.push({name:'sellerpay'})
+        },
+        getWeiDianInfo() {
+            server.send({
+                apiName: 'getWeiDianInfo',
+                method: 'get',
+                params: {
+                    company_id : _global.company_id,
+                    weidian_id : this.$route.params.weidian_id
+                }
+            }).then((req)=>{
+                aLog(req)
+            })
         }
     }
 }
