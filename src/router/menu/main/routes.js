@@ -2,13 +2,14 @@ import VueRouter from 'vue-router'
 import Menu from './view/menu'
 
 const routes = [
-	{
-		name: 'menu',
-		path: '/',
-		component: Menu
-	}
+  {
+    name: 'menu',
+    path: '/',
+    component: Menu
+  }
 ]
 
 export default new VueRouter({
-	routes
+  history: true,
+  routes
 })

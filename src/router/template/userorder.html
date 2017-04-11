@@ -12,8 +12,9 @@
 
 <body>
   <div id="app">
+    <toast v-model="showPositionValue" type="text" :time="1000" is-show-mask :text="msgError" :position="position"></toast>
     <transition name="fade" mode="out-in">
-      <router-view></router-view>
+      <router-view v-wechat-title="$route.meta.title"></router-view>
     </transition>
   </div>
   <!-- built files will be auto injected -->

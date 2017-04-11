@@ -1,24 +1,27 @@
 <template>
     <div>
-        <x-header :left-options="{backText: ''}">收银台<a slot="right">沙县小吃漕宝路店</a></x-header>
         <!--个人信息-->
+        <divider>{{microShop.name}}</divider>
         <div class="userpay-user">
             <p class="userpay-type">订单类型：买单</p>
             <div class="userpay-info">
                 <div class="userpay-img">
-                    <img src="../../../../assets/img/2017040521491832.jpg">
+                    <img :src="userList.headimgurl">
                 </div>
                 <div class="userpay-name">
-                    <p>尤子墨 <span>13852226521</span></p>
-                    <p class="userpay-address">地址：上海市宝山区长江南路258号创意智慧园5楼208室</p>
+                    <p>{{userList.username}} <span v-if="false">13852226521</span></p>
+                    <p class="userpay-address"
+                       v-if="false">地址：上海市宝山区长江南路258号创意智慧园5楼208室</p>
                 </div>
-                <div class="userpay-member">
+                <div class="userpay-member"
+                     v-if="false">
                     白金会员
                 </div>
             </div>
         </div>
         <!--判断如果是外卖订单，则显示-->
-        <card :header="{title:'商品详情'}">
+        <card :header="{title:'商品详情'}"
+              v-if="false">
             <p slot="content"
                class="card-padding"
                is-link>
@@ -38,7 +41,8 @@
                   is-link></cell>
             <cell title="礼品卡"
                   value="3张可用"
-                  is-link></cell>
+                  is-link
+                  @click.native="giftChoose"></cell>
         </group>
         <!--商品信息-->
         <group>
@@ -59,11 +63,17 @@
             <x-button type="primary">微信支付(￥40)</x-button>
         </box>
     
+        <actionsheet v-model="show4"
+                     :menus="menus1"
+                     show-cancel
+                     @on-click-menu="click">
+        </actionsheet>
     </div>
 </template>
 
 <script>
-import { XHeader, Panel, Group, Cell, CellFormPreview, XButton, Box, Card } from 'vux'
+import { XHeader, Panel, Group, Cell, CellFormPreview, XButton, Box, Card, Divider } from 'vux'
+import actionsheet from '../../../../components/actionsheet'
 export default {
     components: {
         XHeader,
@@ -73,18 +83,46 @@ export default {
         CellFormPreview,
         XButton,
         Box,
-        Card
+        Card,
+        Divider,
+        actionsheet
     },
     data() {
         return {
+            show4: false,
+            cancelText:'取消',
+            menus1: {
+                'title.noop': 'Are you sure?<br/><span style="color:#666;font-size:12px;">Once deleted, you will never find it.</span>',
+                menu1: 'Share to friends',
+                menu2: 'Share to timeline'
+            },
             list: [{
                 label: '生日优惠',
                 value: '-10'
             }]
         }
     },
+    computed: {
+        userList() {
+            return this.$store.state.userInfo
+        },
+        microShop() {
+            return this.$store.state.businessInfo
+        }
+    },
     mounted() {
         document.body.style.backgroundColor = '#f5f5f5'
+    },
+    methods: {
+        click(key) {
+            console.log(key)
+        },
+        giftChoose() {
+            this.show4 = true
+        },
+        toclick() {
+            alert('111')
+        }
     }
 }
 </script>

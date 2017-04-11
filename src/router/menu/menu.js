@@ -5,8 +5,7 @@ import router from './main/routes'
 
 Vue.use(VueRouter)
 
-
 new Vue({
-	router,
-	store
+  router,
+  store
 }).$mount('#app')
