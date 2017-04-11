@@ -1,14 +1,13 @@
 <template>
     <div>
-        <x-header :left-options="{backText: ''}">买单</x-header>
         <div class="user-center">
-            <img src="../../../../assets/img/2017040521491832.jpg">
-            <p>沙县小吃漕宝路店</p>
+            <img :src="microShop.logo">
+            <p>{{microShop.name}}</p>
         </div>
         <group>
             <x-input title='当前买单用户'
                      disabled
-                     v-model="userName"></x-input>
+                     v-model="userList.username"></x-input>
             <x-input title='输入买单金额'
                      v-model="numPrice"
                      type="number"
@@ -30,6 +29,8 @@
 <script>
 import { XHeader, Group, Cell, XInput, Box, Icon, XButton } from 'vux'
 import server from '../../../../api/userorder/depdata'
+import urlHash from '../../../../config/loginConfig'
+import storage from '../../../../config/storage'
 
 export default {
     components: {
@@ -43,28 +44,49 @@ export default {
     },
     data() {
         return {
-            userName: '尤子墨',
-            numPrice: 0
+            numPrice: 0,
+            showPositionValue: false,
+            position: 'default',
+            msgError: ''
         }
     },
+    computed: {
+      userList() {
+          return this.$store.state.userInfo
+      },
+      microShop() {
+          return this.$store.state.businessInfo
+      }
+    },
     mounted() {
-        this.submitOrder()
+        // 判断登陆状态
+        if (!urlHash.request.token && !storage.getToken('_token')) {
+            urlHash.login(urlHash.isWeiXin(), urlHash.request.company_id ? urlHash.request.company_id : '2', window.location.href)
+        } else if (!storage.getToken('_token')) {
+            if (urlHash.request.token) {
+                const tokenCode = urlHash.request.token.substring(0, urlHash.request.token.indexOf("#"))
+                storage.setToken(tokenCode)
+                console.log(tokenCode)
+            }
+        }
+        var param = {
+            apiName: 'getUserInfo',
+            params: {
+                token: storage.getToken()
+            }
+        }
+        var weiParam = {
+            apiName: 'getMicroShop',
+            params: {
+                weidian_id: this.$route.params.weidian_id
+            }
+        }
+        this.$store.dispatch('getUserInfo', param)
+        this.$store.dispatch('getMicroShop', weiParam)
     },
     methods: {
         toPay() {
             this.$router.push({ name: 'userpay' })
-        },
-        submitOrder() {
-            server.send({
-                apiName: 'submitOrder',
-                method: 'post',
-                params: {
-                    id: '212',
-                    name: '李四'
-                }
-            }).then((req)=>{
-                console.log(req)
-            })
         }
     }
 }

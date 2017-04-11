@@ -1,18 +1,24 @@
-import VueRouter from 'vue-router';
+import VueRouter from 'vue-router'
 
 const routes = [
   {
     name: 'userorder',
-    path: '/',
-    component: resolve => require(['./view/userorder.vue'], resolve),
+    path: '/:company_id/:weidian_id',
+    meta: {
+      title: '买单'
+    },
+    component: resolve => require(['./view/userorder.vue'], resolve)
   },
   {
     name: 'userpay',
     path: '/userpay',
-    component: resolve => require(['./view/userpay.vue'], resolve),
-  },
-];
+    meta: {
+      title: '收银台'
+    },
+    component: resolve => require(['./view/userpay.vue'], resolve)
+  }
+]
 
 export default new VueRouter({
-  routes,
-});
+  routes
+})
