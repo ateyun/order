@@ -8,6 +8,8 @@ import axiosConfig from './../../config/axiosConfig.js' // axios配置文件
 
 const $ajax = axios.create(axiosConfig)
 
+$ajax.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+
 const requestApi = {
   // 测试
   submitOrder: {
@@ -18,12 +20,28 @@ const requestApi = {
       name: 'Sevent'
     }
   },
+  // 判断企业是否存在
+  getEnterPriseStatus: {
+    url: '/company/info/get',
+    method: 'get',
+    params: {
+      company_id: ''
+    }
+  },
+  // 判断应用权限
+  getAppPromiss: {
+    url: '/app/run/config',
+    method: 'get',
+    params: {
+      app_code: '',
+      company_id: ''
+    }
+  },
   // 获取用户信息
   getUserInfo: {
     url: '/member/member/get',
     method: 'get',
     params: {
-      token: ''
     }
   },
   // 获取微店信息
@@ -33,10 +51,35 @@ const requestApi = {
     params: {
       weidian_id: ''
     }
+  },
+  // 获取收银桌信息
+  getdesk: {
+    url: '/app/run/api',
+    method: 'get',
+    params: {
+      company_id: '',
+      app_code: 'ecash',
+      action: 'get_desk',
+      id: ''
+    }
+  },
+  // 提交订单
+  submitUserOrder: {
+    url: '/weidian/order/create',
+    method: 'post',
+    data: {
+      order_type: '',
+      uid: '',
+      weidian_id: '',
+      company_id: '',
+      express_type: 0,
+      cash_amount: '',
+      payment_name: ''
+    }
   }
 }
 
-function analysis (name) {
+function analysis(name) {
   var req = requestApi[name.apiName]
 
   req = _.merge({}, req, name)

@@ -5,8 +5,9 @@
     </transition>
     <div class="weui-actionsheet" :class="{'weui-actionsheet_toggle': show}">
       <div class="weui-actionsheet__menu">
-        <div class="weui-actionsheet__cell" v-for="(text, key) in menus" @click="onMenuClick(text, key)" v-html="text" :class="`vux-actionsheet-menu-${text.type || 'default'}`">
-        </div>
+        <div class="" v-html="componentHtml"></div>
+        <!--<div class="weui-actionsheet__cell" v-for="(text, key) in menus" @click="onMenuClick(text, key)" v-html="text" :class="`vux-actionsheet-menu-${text.type || 'default'}`">
+        </div>-->
       </div>
       <div class="weui-actionsheet__action" @click="emitEvent('on-click-menu', 'cancel')" v-if="showCancel">
         <div class="weui-actionsheet__cell">取消</div>
@@ -27,6 +28,7 @@ export default {
     showCancel: Boolean,
     cancelText: String,
     menus: Object,
+    componentHtml: String,
     closeOnClickingMask: {
       type: Boolean,
       default: true

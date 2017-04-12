@@ -65,6 +65,7 @@
     
         <actionsheet v-model="show4"
                      :menus="menus1"
+                     :componentHtml="abc"
                      show-cancel
                      @on-click-menu="click">
         </actionsheet>
@@ -96,6 +97,7 @@ export default {
                 menu1: 'Share to friends',
                 menu2: 'Share to timeline'
             },
+            abc: '<h1>好</h1>',
             list: [{
                 label: '生日优惠',
                 value: '-10'
