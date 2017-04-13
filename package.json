@@ -9,11 +9,14 @@
     "build": "node build/build.js",
     "build:userorder": "cross-env TARGET=userorder node build/build.js",
     "build:userorder-dev": "cross-env STAGE=development TARGET=userorder node build/build.js",
+    "build:sellerorder": "cross-env TARGET=sellerorder node build/build.js",
+    "build:sellerorder-dev": "cross-env STAGE=development TARGET=sellerorder node build/build.js",
     "server": "node node/app.js"
   },
   "dependencies": {
     "vue": "^2.2.2",
     "vue-router": "^2.2.0",
+    "vue-wechat-title": "^2.0.4",
     "vuex": "^2.2.1",
     "vux": "^2.2.1-rc.1"
   },

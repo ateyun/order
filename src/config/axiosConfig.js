@@ -1,4 +1,5 @@
 import urlBase from './urlConfig'
+import {getCookieAuth} from './../libs/auth'
 
 export default {
   baseURL: urlBase.getUrl('baseUrl'),
@@ -12,7 +13,7 @@ export default {
         ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
       }
       return ret
-      // return JSON.stringify(data)
+      //return JSON.stringify(data)
       // return data;
     }
   ],
@@ -23,5 +24,5 @@ export default {
       return JSON.parse(data)
     }
   ],
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 }
