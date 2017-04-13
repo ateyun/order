@@ -27,7 +27,7 @@ module.exports = {
       name: 'userorder',
       name_cn: '移动应用-用户中心',
       HtmlWebpackPlugin: {
-        filename: 'userorder.html',
+        filename: 'index.html',
         template: 'src/router/template/userorder.html',
         inject: true,
         chunks: ['userorder']
