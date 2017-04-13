@@ -38,7 +38,7 @@ module.exports = {
       name: 'sellerorder',
       name_cn: '移动应用-商家买单',
       HtmlWebpackPlugin: {
-        filename: 'index.html',
+        filename: 'sellerorder.html',
         template: 'src/router/template/sellerorder.html',
         inject: true,
         chunks: ['sellerorder']
