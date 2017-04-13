@@ -7,8 +7,12 @@ export default {
   transformRequest: [
     function (data) {
       // Do whatever you want to transform the data
-
-      return JSON.stringify(data)
+      let ret = ''
+      for (let it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+      // return JSON.stringify(data)
       // return data;
     }
   ],
@@ -19,5 +23,5 @@ export default {
       return JSON.parse(data)
     }
   ],
-  headers: {'Content-Type': 'application/json;charset=utf-8'}
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 }

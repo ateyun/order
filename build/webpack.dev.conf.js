@@ -10,14 +10,15 @@ var projects = srcConfig.eachTemp
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
-  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
+  baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(
+    baseWebpackConfig.entry[name]
+  )
 })
-
 
 const plugins = [
   new webpack.DefinePlugin({
     'process.env': config.dev.env,
-    __STAGE__:"\'dev\'"
+    __STAGE__: "'dev'"
   }),
   // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
   new webpack.HotModuleReplacementPlugin(),
@@ -34,13 +35,13 @@ const plugins = [
 
 var entries = {}
 
-projects.forEach((obj, index)=> {
+projects.forEach((obj, index) => {
   plugins.push(new HtmlWebpackPlugin(obj.HtmlWebpackPlugin))
 })
 
-projects.forEach((obj, index)=> {
+projects.forEach((obj, index) => {
   const entry = obj.entry
-  entry.forEach((e,i)=> {
+  entry.forEach((e, i) => {
     entries[entry[i]] = './src/router/' + entry[i] + '/' + entry[i] + '.js'
   })
 })
@@ -48,7 +49,7 @@ projects.forEach((obj, index)=> {
 module.exports = merge(baseWebpackConfig, {
   entry: entries,
   module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap })
+    rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap})
   },
   // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
