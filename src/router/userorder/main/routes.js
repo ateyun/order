@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 const routes = [
   {
     name: 'userorder',
-    path: '/:company_id/:weidian_id',
+    path: '/',
     meta: {
       title: '买单'
     },

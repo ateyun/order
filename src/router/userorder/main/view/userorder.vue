@@ -21,7 +21,7 @@
     
         <box gap="20px 10px">
             <x-button type="primary"
-                      @click.native="toPay">去支付</x-button>
+                      @click.native="toPay" :disabled="!(allStates.enterPriseStatus && allStates.appPromissStatus && allStates.userInfoStatus && allStates.businessInfoStatus && allStates.deskInfo)">去支付</x-button>
         </box>
     </div>
 </template>
@@ -51,42 +51,125 @@ export default {
         }
     },
     computed: {
-      userList() {
-          return this.$store.state.userInfo
-      },
-      microShop() {
-          return this.$store.state.businessInfo
-      }
+        userList() {
+            return this.$store.state.userInfo
+        },
+        microShop() {
+            return this.$store.state.businessInfo
+        },
+        allStates() {
+            return this.$store.state.allStates
+        }
     },
-    mounted() {
-        // 判断登陆状态
-        if (!urlHash.request.token && !storage.getToken('_token')) {
-            urlHash.login(urlHash.isWeiXin(), urlHash.request.company_id ? urlHash.request.company_id : '2', window.location.href)
-        } else if (!storage.getToken('_token')) {
-            if (urlHash.request.token) {
-                const tokenCode = urlHash.request.token.substring(0, urlHash.request.token.indexOf("#"))
-                storage.setToken(tokenCode)
-                console.log(tokenCode)
+    created() {
+
+        // 判断参数是否正确
+        if (urlHash.request.company_id) {
+            var company_ids = urlHash.request.company_id
+            if (company_ids.indexOf("#") != -1) {
+                company_ids = company_ids.substring(0, company_ids.indexOf("#"));
+            }
+
+            const locations = window.location.href.substring(0, window.location.href.indexOf("#"))
+
+            var code = urlHash.getCookieAuth(urlHash.typePay(), company_ids, locations)
+
+            if (!code) {
+                return
             }
         }
+
+        if (urlHash.request.weidian_id && urlHash.request.company_id && urlHash.request.desk_id) {
+
+            // 去掉#号
+            var weidian_ids = urlHash.request.weidian_id
+
+            if (weidian_ids.indexOf("#") != -1) {
+                weidian_ids = weidian_ids.substring(0, weidian_ids.indexOf("#"));
+            }
+
+            var desk_ids = urlHash.request.desk_id
+
+            if (desk_ids.indexOf("#") != -1) {
+                desk_ids = desk_ids.substring(0, desk_ids.indexOf("#"));
+            }
+
+            // 企业信息
+            var exterPrise = {
+                apiName: 'getEnterPriseStatus',
+                params: {
+                    company_id: company_ids
+                }
+            }
+
+            this.$store.dispatch('getEnterPrise', exterPrise)
+
+            // 应用权限
+            var appPromiss = {
+                apiName: 'getAppPromiss',
+                params: {
+                    app_code: 'ecash',
+                    company_id: company_ids
+                }
+            }
+            this.$store.dispatch('getAppPromiss', appPromiss)
+
+
+            // 收银桌
+            var deskParam = {
+                apiName: 'getdesk',
+                params: {
+                    company_id: company_ids,
+                    id: desk_ids
+                }
+            }
+            this.$store.dispatch('getDeskInfo', deskParam)
+
+
+
+            // 判断本地是否已经保存token
+
+            storage.setIds({ weidian_id: weidian_ids, company_id: company_ids, desk_id: desk_ids })
+        } else {
+            this.$store.commit('editMsg', { msgError: '参数错误', showPositionValue: true })
+            return
+        }
+
+
+
+        // 请求两个接口  商家：用户
         var param = {
             apiName: 'getUserInfo',
             params: {
-                token: storage.getToken()
             }
         }
+
         var weiParam = {
             apiName: 'getMicroShop',
             params: {
-                weidian_id: this.$route.params.weidian_id
+                weidian_id: storage.getIds().weidian_id
             }
         }
+
         this.$store.dispatch('getUserInfo', param)
         this.$store.dispatch('getMicroShop', weiParam)
     },
     methods: {
         toPay() {
-            this.$router.push({ name: 'userpay' })
+            // this.$router.push({ name: 'userpay' })
+            var params = {
+                apiName: 'submitUserOrder',
+                method: 'post',
+                data: {
+                    order_type: '买单订单',
+                    uid: this.userList.uid,
+                    weidian_id: storage.getIds().weidian_id,
+                    company_id: storage.getIds().company_id,
+                    cash_amount: parseFloat(this.numPrice),
+                    payment_name: 'cash'
+                }
+            }
+            this.$store.dispatch('submitOrder', params)
         }
     }
 }

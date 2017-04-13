@@ -11,8 +11,8 @@ Vue.use(VueRouter)
 Vue.use(require('vue-wechat-title'))
 
 // 添加Fastclick移除移动端点击延迟
-const FastClick = require('fastclick')
-FastClick.attach(document.body)
+// const FastClick = require('fastclick')
+// FastClick.attach(document.body)
 
 new Vue({
   computed: {
