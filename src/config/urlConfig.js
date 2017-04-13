@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 const urlConfig = {
   production: {
-    baseUrl: 'http://api.ateyun.com/'
+    baseUrl: 'http://dev.api.pizzadiy.com/'
   },
   development: {
     baseUrl: 'http://test.api.ateyun.com/'

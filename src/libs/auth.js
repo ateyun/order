@@ -30,9 +30,9 @@ export function saveCookie(name, value) {
  */
 export function getCookie(name) {
     let strCookie = document.cookie.replace(/\s/ig,""); //去掉空格
-    aLog(strCookie)
+    //aLog(strCookie)
     let arrCookie = strCookie.split(";");
-    aLog(arrCookie);
+    //aLog(arrCookie);
     for(let i = 0;i < arrCookie.length;i++){
         let arr = arrCookie[i].split("=");
         if(arr[0] == name){

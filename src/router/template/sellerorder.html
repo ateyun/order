@@ -24,8 +24,8 @@
             "company_id": 1,
             "token_name": "ate_auth",
             "cookie_domain": ".ateyun.com",
-            "api_root": "http://api.ateyun.com",
-            "sso_root": "http://sso.ateyun.com",
+            "api_root": "http://dev.api.pizzadiy.com",
+            "sso_root": "http://dev.sso.pizzadiy.com",
             "debug": true
         };
     </script>
@@ -33,6 +33,7 @@
 
 <body>
     <div id="app">
+        <toast v-model="showPositionValue" type="text" :time="1000" is-show-mask :text="msgError" :position="position"></toast>
         <transition name="back">
             <router-view></router-view>
         </transition>

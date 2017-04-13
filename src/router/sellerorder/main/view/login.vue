@@ -17,6 +17,7 @@ import { getCookie, saveCookie, removeCookie } from '../../../../libs/auth'
     },
     mounted () {
         let _token = getUrlParameter("token");
+        aLog(_token)
         if(_token != null){
             saveCookie(_global.token_name, _token);
             location.href = getCookie("loginReurl");
