@@ -21,14 +21,14 @@
     
         <box gap="20px 10px">
             <x-button type="primary"
-                      @click.native="toPay" :disabled="!(allStates.enterPriseStatus && allStates.appPromissStatus && allStates.userInfoStatus && allStates.businessInfoStatus && allStates.deskInfo)">去支付</x-button>
+                      @click.native="toPay"
+                      :disabled="!(allStates.enterPriseStatus && allStates.appPromissStatus && allStates.userInfoStatus && allStates.businessInfoStatus && allStates.deskInfo && numPrice)">去支付</x-button>
         </box>
     </div>
 </template>
 
 <script>
 import { XHeader, Group, Cell, XInput, Box, Icon, XButton } from 'vux'
-import server from '../../../../api/userorder/depdata'
 import urlHash from '../../../../config/loginConfig'
 import storage from '../../../../config/storage'
 
@@ -59,6 +59,9 @@ export default {
         },
         allStates() {
             return this.$store.state.allStates
+        },
+        nexttick() {
+            return this.$store.state.orderSumit
         }
     },
     created() {
@@ -66,13 +69,8 @@ export default {
         // 判断参数是否正确
         if (urlHash.request.company_id) {
             var company_ids = urlHash.request.company_id
-            if (company_ids.indexOf("#") != -1) {
-                company_ids = company_ids.substring(0, company_ids.indexOf("#"));
-            }
 
-            const locations = window.location.href.substring(0, window.location.href.indexOf("#"))
-
-            var code = urlHash.getCookieAuth(urlHash.typePay(), company_ids, locations)
+            var code = urlHash.getCookieAuth(urlHash.typePay(), company_ids, window.location.href)
 
             if (!code) {
                 return
@@ -84,15 +82,7 @@ export default {
             // 去掉#号
             var weidian_ids = urlHash.request.weidian_id
 
-            if (weidian_ids.indexOf("#") != -1) {
-                weidian_ids = weidian_ids.substring(0, weidian_ids.indexOf("#"));
-            }
-
             var desk_ids = urlHash.request.desk_id
-
-            if (desk_ids.indexOf("#") != -1) {
-                desk_ids = desk_ids.substring(0, desk_ids.indexOf("#"));
-            }
 
             // 企业信息
             var exterPrise = {
@@ -170,6 +160,15 @@ export default {
                 }
             }
             this.$store.dispatch('submitOrder', params)
+        }
+    },
+    watch: {
+        'nexttick': {
+            handler: function (val) {
+                if (JSON.stringify(val) != "{}") {
+                    this.$router.push({ name: 'userpay', query: { order_id: this.$store.state.orderSumit.order_id } })
+                }
+            }
         }
     }
 }

@@ -75,6 +75,8 @@
 <script>
 import { XHeader, Panel, Group, Cell, CellFormPreview, XButton, Box, Card, Divider } from 'vux'
 import actionsheet from '../../../../components/actionsheet'
+import urlHash from '../../../../config/loginConfig'
+import storage from '../../../../config/storage'
 export default {
     components: {
         XHeader,
@@ -110,10 +112,61 @@ export default {
         },
         microShop() {
             return this.$store.state.businessInfo
+        },
+        orderList() {
+            return this.$store.state.userOrder
         }
     },
     mounted() {
         document.body.style.backgroundColor = '#f5f5f5'
+
+        // 判断参数是否正确
+        if (urlHash.request.order_id) {
+
+            const order_ids = urlHash.request.order_id
+
+            const code = urlHash.getCookieAuth(urlHash.typePay(), '1', window.location.href)
+
+            if (!code) {
+                return
+            }
+
+        }
+
+        // 获取用户订单信息
+
+        var orderParam = {
+            apiName: 'getUserOrder',
+            params: {
+                order_id: urlHash.request.order_id
+            }
+        }
+
+        this.$store.dispatch('getUserOrder', orderParam)
+        
+        // 获取用户信息
+        var param = {
+            apiName: 'getUserInfo',
+            params: {
+            }
+        }
+
+        this.$store.dispatch('getUserInfo', param)
+
+        // 获取商家信息
+        var weiParam = {
+            apiName: 'getMicroShop',
+            params: {
+                weidian_id: storage.getIds().weidian_id
+            }
+        }
+
+        this.$store.dispatch('getMicroShop', weiParam)
+
+
+
+
+
     },
     methods: {
         click(key) {

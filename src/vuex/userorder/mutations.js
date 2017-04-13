@@ -20,7 +20,11 @@ export const state = {
 
   businessInfo: {}, // 商家信息
 
-  deskInfo: {}  //收银桌信息
+  deskInfo: {},  //收银桌信息
+
+  orderSumit: {},  //提交订单信息
+
+  userOrder: {}   //用户订单信息
 
 }
 
@@ -54,5 +58,13 @@ export const mutations = {
   saveDeskInfo(state, data) {
     state.deskInfo = data
     state.allStates.deskInfo = true
+  },
+  //  提交订单信息
+  saveOrder(state, data) {
+    state.orderSumit = data
+  },
+  //  获取用户订单信息
+  saveUserOrder(state, data) {
+    state.userOrder = data
   }
 }

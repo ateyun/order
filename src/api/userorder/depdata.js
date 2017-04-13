@@ -76,6 +76,14 @@ const requestApi = {
       cash_amount: '',
       payment_name: ''
     }
+  },
+  // 获取订单信息
+  getUserOrder: {
+    url: '/weidian/order/get',
+    method: 'get',
+    params: {
+      order_id: ''
+    }
   }
 }
 
