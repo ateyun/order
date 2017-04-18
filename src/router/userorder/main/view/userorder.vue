@@ -47,7 +47,8 @@ export default {
             numPrice: 0,
             showPositionValue: false,
             position: 'default',
-            msgError: ''
+            msgError: '',
+            companyIds: ''
         }
     },
     computed: {
@@ -59,17 +60,14 @@ export default {
         },
         allStates() {
             return this.$store.state.allStates
-        },
-        nexttick() {
-            return this.$store.state.orderSumit
         }
     },
-    created() {
-
+    mounted() {
         // 判断参数是否正确
         if (urlHash.request.company_id) {
-            var company_ids = urlHash.request.company_id
 
+            var company_ids = urlHash.request.company_id
+            this.companyIds = company_ids
             var code = urlHash.getCookieAuth(urlHash.typePay(), company_ids, window.location.href)
 
             if (!code) {
@@ -84,69 +82,78 @@ export default {
 
             var desk_ids = urlHash.request.desk_id
 
+            // 请求接口用户
+
+            this.$store.dispatch('getUserInfo', {apiName: 'getUserInfo', companyId: company_ids})
+
             // 企业信息
             var exterPrise = {
                 apiName: 'getEnterPriseStatus',
                 params: {
                     company_id: company_ids
-                }
+                },
+                companyId: company_ids
             }
 
-            this.$store.dispatch('getEnterPrise', exterPrise)
+            this.$store.dispatch('getEnterPrise', exterPrise).then((res) => {
 
-            // 应用权限
-            var appPromiss = {
-                apiName: 'getAppPromiss',
-                params: {
-                    app_code: 'ecash',
-                    company_id: company_ids
+                if (res.code === 200) {
+                    // 微店信息
+                    console.log('企业信息成功:' + JSON.stringify(res))
+
+                    var weiParam = {
+                        apiName: 'getMicroShop',
+                        params: {
+                            weidian_id: storage.getIds().weidian_id
+                        },
+                        companyId: company_ids
+                    }
+                    this.$store.dispatch('getMicroShop', weiParam).then((weires) => {
+                        if (weires.code === 200) {
+                            // 应用权限
+                            console.log('微店信息成功：' + JSON.stringify(weires))
+                            var appPromiss = {
+                                apiName: 'getAppPromiss',
+                                params: {
+                                    app_code: 'ecash',
+                                    company_id: company_ids
+                                },
+                                companyId: company_ids
+                            }
+                            this.$store.dispatch('getAppPromiss', appPromiss).then((appres) => {
+                                if (appres.code === 200 && appres.data.ecash != '-1') {
+                                    // 收银桌
+                                    console.log('应用权限成功：' + JSON.stringify(appres))
+                                    var deskParam = {
+                                        apiName: 'getdesk',
+                                        params: {
+                                            company_id: company_ids,
+                                            id: desk_ids
+                                        },
+                                        companyId: company_ids
+                                    }
+                                    this.$store.dispatch('getDeskInfo', deskParam).then((deskres) => {
+                                        if (deskres.code === 200) {
+                                            console.log('收银桌成功：' + JSON.stringify(deskres))
+                                        }
+                                    })
+
+                                }
+                            })
+
+                        }
+                    })
                 }
-            }
-            this.$store.dispatch('getAppPromiss', appPromiss)
-
-
-            // 收银桌
-            var deskParam = {
-                apiName: 'getdesk',
-                params: {
-                    company_id: company_ids,
-                    id: desk_ids
-                }
-            }
-            this.$store.dispatch('getDeskInfo', deskParam)
-
-
-
-            // 判断本地是否已经保存token
+            })
 
             storage.setIds({ weidian_id: weidian_ids, company_id: company_ids, desk_id: desk_ids })
         } else {
             this.$store.commit('editMsg', { msgError: '参数错误', showPositionValue: true })
             return
         }
-
-
-
-        // 请求两个接口  商家：用户
-        var param = {
-            apiName: 'getUserInfo',
-            params: {
-            }
-        }
-
-        var weiParam = {
-            apiName: 'getMicroShop',
-            params: {
-                weidian_id: storage.getIds().weidian_id
-            }
-        }
-
-        this.$store.dispatch('getUserInfo', param)
-        this.$store.dispatch('getMicroShop', weiParam)
     },
     methods: {
         toPay() {
-            // this.$router.push({ name: 'userpay' })
             var params = {
                 apiName: 'submitUserOrder',
                 method: 'post',
@@ -157,18 +164,14 @@ export default {
                     company_id: storage.getIds().company_id,
                     cash_amount: parseFloat(this.numPrice),
                     payment_name: 'cash'
-                }
+                },
+                companyId: this.companyIds
             }
-            this.$store.dispatch('submitOrder', params)
-        }
-    },
-    watch: {
-        'nexttick': {
-            handler: function (val) {
-                if (JSON.stringify(val) != "{}") {
+            this.$store.dispatch('submitOrder', params).then((res) => {
+                if (res.code === 200) {
                     this.$router.push({ name: 'userpay', query: { order_id: this.$store.state.orderSumit.order_id } })
                 }
-            }
+            })
         }
     }
 }

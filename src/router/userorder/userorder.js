@@ -4,8 +4,11 @@ import store from './../../vuex/userorder'
 import router from './main/routes'
 import './../../assets/css/index.css'
 import './../../assets/js/rem'
+import {loadingPlugin} from './../../plugins'
 import {Toast} from 'vux'
 
+
+Vue.use(loadingPlugin)
 Vue.use(VueRouter)
 
 Vue.use(require('vue-wechat-title'))
