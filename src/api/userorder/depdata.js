@@ -8,7 +8,9 @@ import axiosConfig from './../../config/axiosConfig.js' // axios配置文件
 
 const $ajax = axios.create(axiosConfig)
 
-$ajax.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+$ajax.defaults.headers.post[
+  'Content-Type'
+] = 'application/x-www-form-urlencoded'
 
 const requestApi = {
   // 测试
@@ -41,8 +43,7 @@ const requestApi = {
   getUserInfo: {
     url: '/member/member/get',
     method: 'get',
-    params: {
-    }
+    params: {}
   },
   // 获取微店信息
   getMicroShop: {
@@ -84,10 +85,54 @@ const requestApi = {
     params: {
       order_id: ''
     }
+  },
+  // 刷新订单信息
+  refreshUserOrder: {
+    url: '/weidian/order/refresh',
+    method: 'post',
+    params: {
+    }
+  },
+  // 获取礼品卡数据信息
+  getCardInfo: {
+    url: '/app/run/api',
+    method: 'get',
+    params: {
+      app_code: 'card',
+      action: 'lists',
+      sort: 'active_time',
+      order: 'DESC',
+      offset: 0,
+      limit: 10,
+      filter_by: [{field: 'company_id', opt: 'EQ', value: '1'}],
+      search_by: {},
+      order_by: {active_time: 'DESC'}
+    }
+  },
+  // 绑定礼品卡信息
+  bindUserCode: {
+    url: '/app/run/api',
+    method: 'get',
+    params: {
+      app_code: 'card',
+      action: 'bind_card',
+      uid: '',
+      card_code: ''
+    }
+  },
+  // 微信支付
+  weiToPay: {
+    url: '/weidian/pay/weixin',
+    method: 'post',
+    params: {
+      company_id: '',
+      order_id: '',
+      type: ''
+    }
   }
 }
 
-function analysis(name) {
+function analysis (name) {
   var req = requestApi[name.apiName]
 
   req = _.merge({}, req, name)
